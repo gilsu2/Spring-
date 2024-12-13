@@ -1,11 +1,13 @@
 package com.dw.jdbcapp.repository;
 
 
+import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.model.Product;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,33 @@ public class ProductRepository {
             e.printStackTrace();
         }
         return products;
+    }
+    public Product getProductById(int id) {
+        Product product = new Product();
+        String query = "select * from 제품 where 제품번호 = ?";
+        try (
+                Connection connection = DriverManager.getConnection(
+                        URL, USER, PASSWORD);
+                PreparedStatement pstmt = connection.prepareStatement(query);) {
+
+            System.out.println("데이터베이스 연결 성공");
+
+            pstmt.setInt(1, id);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                while (resultSet.next()) {
+
+                    product.setProductNum(resultSet.getInt("제품번호"));
+                    product.setProductName(resultSet.getString("제품명"));
+                    product.setPackagingUnit(resultSet.getString("포장단위"));
+                    product.setPrice(resultSet.getDouble("단가"));
+                    product.setStock(resultSet.getInt("재고"));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
     }
 }
 

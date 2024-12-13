@@ -2,11 +2,15 @@ package com.dw.jdbcapp.repository;
 
 import com.dw.jdbcapp.model.Customer;
 import com.dw.jdbcapp.model.Department;
+import com.dw.jdbcapp.model.Order;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class DepartmentRepository {
@@ -39,4 +43,5 @@ public class DepartmentRepository {
         }
         return departments;
     }
+
 }
