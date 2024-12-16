@@ -44,4 +44,37 @@ public class DepartmentRepository {
         return departments;
     }
 
+
+    public Department saveDepartment (Department department){
+            String query = "insert into 부서(부서번호, 부서명) " +
+                    "values (?,?)";
+            try(Connection conn = DriverManager.getConnection(URL,USER,PASSWORD);
+                PreparedStatement pstmt = conn.prepareStatement(query)){
+                pstmt.setString(1, department.getDepartmentNum() );
+                pstmt.setString(2, department.getDepartmentName() );
+                pstmt.executeUpdate();
+                System.out.println("INSERT 성공");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        // 매개변수로 전달받은 department 객체 정보를 MySQL에 insert한 후
+        // 성공이면 해당 객체를 리턴함
+        return department;
+    }
+
+    public Department updateDepartment(Department department) {
+        String query = "update 부서 set 부서명=? where 부서번호=?";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, department.getDepartmentName());
+            pstmt.setString(2, department.getDepartmentNum());
+            pstmt.executeUpdate();
+            System.out.println("UPDATE 성공");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return department ;
+    }
+
 }

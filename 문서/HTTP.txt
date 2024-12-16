@@ -1,0 +1,17 @@
+<HTTP(HyperText Transfer Protocol)>
+웹 브라우저와 서버간으 데이터를 주고받기위한 인터넷 프로토콜
+(프로토콜(Protocol)이란 규약, 약속의 의미)
+웹에서 컨텐츠(텍스트,이미지,사운드, 비디오등)를 전송하기 위해
+가장 널리 사용되는 프로토콜이며 기본적으로 요청.응답으로 이루어져 있음
+
+1) 클라이언트 -서버 구조이며 클라이언트는 요청하고 서버는 응답을 담당
+2) HTTP는 기본적으로 상태를 저장하지 않음(Stateless)
+3) 모든 메서지는 해더와 본문으로 구성
+4) 요청은 아래와 같은 메서드로 구분되어 있음
+ : GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH
+5) 상태코드 - 성공, 실패를 원인과 함께 미리 정의해둔 코드로 표시  
+ : 예) 200 OK
+       201 Created
+       400 Bad Request
+       404 Not Found
+       500 Internal Server Error
