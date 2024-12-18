@@ -13,7 +13,7 @@ public class MileGradeController {
     @Autowired
     MileGradeService mileGradeService;
 
-    @GetMapping ("/find-all-mileages")
+    @GetMapping("/find-all-milegrade")
     public List<MileGrade> getAllMileGrades(){
         return mileGradeService.getAllMileGrades();
     }

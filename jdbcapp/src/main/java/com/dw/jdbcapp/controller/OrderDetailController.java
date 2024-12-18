@@ -13,8 +13,8 @@ public class OrderDetailController {
     @Autowired
     OrderDetailService orderDetailService;
 
-    @GetMapping("/find-all-orderdetails")
-    public List<OrderDetail>getAllOrderDetails(){
+    @GetMapping("/find-all-orderdetail")
+    public List<OrderDetail> getAllOrderDetails(){
         return orderDetailService.getAllOrderDetails();
     }
 }
