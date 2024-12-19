@@ -43,13 +43,16 @@ public class DepartmentJdbcRepository implements DepartmentRepository {
     public Department saveDepartment(Department department) {
 
         String query = "insert into 부서(부서번호,부서명) "
-                + "values (?, ?) "; // ? 자리에 매개변수를 넣을 예정
+                + "values (? , ?) "; // ? 자리에 매개변수를 넣을 예정
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(2, department.getDepartmentName());
+
             pstmt.setString(1, department.getDepartmentNum());
+            pstmt.setString(2, department.getDepartmentName());
             pstmt.executeUpdate();
+
             System.out.println("INSERT 성공");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

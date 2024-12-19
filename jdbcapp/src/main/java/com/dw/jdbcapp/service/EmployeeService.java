@@ -49,9 +49,10 @@ public class EmployeeService {
         }
         return employeeDepartmentDTOList;
     }
-    public Employee getEmployeeById_3(String id,String position){
-        return employeeRepository.getDepartmentById_3(id, position);
+    public List<Employee>getEmployeeById_3(String id,String position){
+        return employeeRepository.getDepartmentById_3(id,position);
     }
+
     public Employee saveEmployee(Employee employee){
         return employeeRepository.saveEmployee(employee);
     }
