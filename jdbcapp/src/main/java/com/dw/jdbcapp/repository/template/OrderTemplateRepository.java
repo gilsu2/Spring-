@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class OrderTemplateRepository implements OrderRepository {
@@ -52,17 +54,53 @@ public class OrderTemplateRepository implements OrderRepository {
     }
 
     @Override
-    public Order getOrderById_2(String number, String id) {
-        String query = "select * from 주문 "
-                + "inner join 주문세부 on 주문.주문번호 = 주문세부.주문번호 "+
-                " inner join 제품 on 제품.제품번호 = 주문세부.제품번호 " +
-                " where 제품.제품번호 = ? and 주문.고객번호 = ? ";
+    public List<Order> getOrderById_2(int number, String id) {
+        String query = "select * from 주문 where 고객번호 = ? and 주문번호 " +
+                "in (select 주문번호 from 주문세부 where 제품번호 = ?)";
         try {
-            return jdbcTemplate.queryForObject(query, orderRowMapper, number, id);
-        }catch (EmptyResultDataAccessException e){
+            return jdbcTemplate.query(query, orderRowMapper, number, id);
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
-                    "입력하신 제품번호와 고객번호가 올바르지 않습니다 "+number+" "+id);
-
+                    "입력하신 제품번호와 고객번호가 올바르지 않습니다 " + number + " " + id);
         }
     }
+    @Override
+    public int saveOrder(Order order) {
+        String query = "insert into 주문(주문번호,고객번호,사원번호,주문일,요청일)"+
+                "values(?,?,?,?,?)";
+        return jdbcTemplate.update(query,
+                order.getOrderId(),
+                order.getCustomerId(),
+                order.getEmployeeId(),
+                order.getOrderDate().toString(),
+                order.getRequestDate().toString());
+    }
+
+    @Override
+    public String  updateOrderWithShippingDate(String id, String date) {
+        String query = "update 주문 set 발송일 =? where 주문번호=? ";
+        jdbcTemplate.update(query,date,id);
+        return "성공";
+    }
+
+    @Override
+    public List<Map<String,Double>> getTopCitiesByTotalOrderAmount(int limit) {
+        String query = "select 도시, sum(단가*주문수량) as 주문금액합 "+
+        "from 주문 "+
+        " inner join 고객 "+
+        "on 주문.고객번호 = 고객.고객번호 "+
+        " inner join 주문세부 "+
+        " on 주문.주문번호 = 주문세부.주문번호 "+
+        " group by 도시 "+
+        " order by 주문금액합 desc "+
+        " limit ?; ";
+        return jdbcTemplate.query(query, (rs,rowNum) -> {
+            Map<String, Double> order = new HashMap<>();
+            order.put("도시", Double.valueOf(rs.getString("도시")));
+            order.put("주문금액합",rs.getDouble("주문금액합"));
+            return order;
+        });
+    }
+
+
 }

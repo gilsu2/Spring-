@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class CustomerController {
     @Autowired
     CustomerService customerService;
@@ -24,4 +24,13 @@ public class CustomerController {
                 HttpStatus.OK); // 두 번째는 상태 코드
 
     }
+    @GetMapping("/api/customers/high-mile-than-avg")
+    public ResponseEntity<List<Customer>>getCustomersWithHighMileThanAvg(){
+        return new ResponseEntity<>(customerService.getCustomersWithHighMileThanAvg(),HttpStatus.OK);
+    }
+    @GetMapping("/api/customers/grade/{grade}")
+    public ResponseEntity<List<Customer>>getCustomersByMileageGrade(@PathVariable String grade){
+        return new ResponseEntity<>(customerService.getCustomersByMileageGrade(grade),HttpStatus.OK);
+    }
+
 }

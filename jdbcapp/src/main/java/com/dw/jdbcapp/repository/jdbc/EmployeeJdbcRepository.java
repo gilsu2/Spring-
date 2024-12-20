@@ -179,4 +179,9 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
         // 성공이면 해당 객체를 리턴함
         return employee;
     }
+
+    @Override
+    public List<Employee> getEmployeesByHiredate(String hiredate) {
+        return List.of();
+    }
 }

@@ -117,4 +117,12 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
                 employee.getDepartmentNum());
         return employee;
     }
+
+    @Override
+    public List<Employee> getEmployeesByHiredate(String hiredate) {
+        String query = "select * from 사원 " + "where 입사일 > ?";
+        return jdbcTemplate.query(query, employeeRowMapper, hiredate);
+    }
+
+
 }

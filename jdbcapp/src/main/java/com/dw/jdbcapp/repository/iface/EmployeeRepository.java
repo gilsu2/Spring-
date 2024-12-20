@@ -15,4 +15,6 @@ public interface EmployeeRepository {
     List<Employee> getDepartmentById_3(String id, String position);
 
     Employee saveEmployee(Employee employee);
+
+    List<Employee> getEmployeesByHiredate (String hiredate);
 }

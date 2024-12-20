@@ -56,4 +56,9 @@ public class EmployeeService {
     public Employee saveEmployee(Employee employee){
         return employeeRepository.saveEmployee(employee);
     }
+
+    public List<Employee> getEmployeesByHiredate(String hiredate){
+    return employeeRepository.getEmployeesByHiredate(hiredate);
+    }
+
 }
