@@ -1,6 +1,7 @@
 package com.dw.jdbcapp.service;
 
 import com.dw.jdbcapp.dto.EmployeeDepartmentDTO;
+import com.dw.jdbcapp.exception.InvalidRequestException;
 import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.repository.iface.EmployeeRepository;
 import com.dw.jdbcapp.repository.jdbc.EmployeeJdbcRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +60,16 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeesByHiredate(String hiredate){
-    return employeeRepository.getEmployeesByHiredate(hiredate);
-    }
+        if (hiredate.equals("0")){
+            return employeeRepository.getEmployeesByHiredate1();
+        }
+            try{
+                LocalDate hire2 = LocalDate.parse(hiredate);
+                return employeeRepository.getEmployeesByHiredate(hire2.toString());
+            }catch(DateTimeParseException e){
+                throw  new InvalidRequestException("입력하신 입사일이 올바르지 않습니다."+ hiredate);
+            }
+        }
 
-}
+        }
+

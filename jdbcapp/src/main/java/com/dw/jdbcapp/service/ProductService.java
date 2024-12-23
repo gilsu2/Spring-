@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.service;
 
+import com.dw.jdbcapp.dto.ProductDTO;
 import com.dw.jdbcapp.exception.InvalidRequestException;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.iface.ProductRepository;
@@ -48,5 +49,15 @@ public class ProductService {
     // Delete
     public String deleteProduct(String id){
         return productRepository.deleteProduct(id);
+    }
+
+    public String updateProductWithStock(int id, int stock){
+        return productRepository.updateProductWithStock(id,stock);
+    }
+    public List<Product> getProductByProductName(String name){
+        return productRepository.getProductByProductName(name);
+    }
+
+    public ProductDTO
     }
 }

@@ -16,5 +16,7 @@ public interface EmployeeRepository {
 
     Employee saveEmployee(Employee employee);
 
-    List<Employee> getEmployeesByHiredate (String hiredate);
+    List<Employee> getEmployeesByHiredate(String hiredate);
+
+    List<Employee> getEmployeesByHiredate1();
 }

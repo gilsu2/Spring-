@@ -48,13 +48,18 @@ public class OrderController {
             orderService.saveOrder(orderRequestDTO),HttpStatus.CREATED);
     }
     @PutMapping("/api/orders/update")
-    public ResponseEntity<String> updateOrderWithShippingDate(@RequestBody String id,@RequestBody String date){
-        return new ResponseEntity<>(orderService.updateOrderWithShippingDate(id,date),HttpStatus.OK);
+    public ResponseEntity<String> updateOrderWithShippingDate(@RequestParam String id,@RequestParam String date){
+        return new ResponseEntity<>(orderService.updateOrderWithShippingDate(id, date),HttpStatus.OK);
     }
 
     @GetMapping("/api/orders/city/orderamount/{limit}")
-    public ResponseEntity <List<Map<String,Double>>> getTopCitiesByTotalOrderAmount(int limit){
+    public ResponseEntity <List<Map<String,Double>>> getTopCitiesByTotalOrderAmount(@PathVariable int limit){
         return new ResponseEntity<>(orderService.getTopCitiesByTotalOrderAmount(limit),HttpStatus.OK);
+    }
+
+    @GetMapping("/api/orders/ordercount/year/{city}")
+    public ResponseEntity<List<Map<String,Double>>> getOrderCountByYearForCity (@PathVariable String city){
+        return new ResponseEntity<>(orderService.getOrderCountByYearForCity(city),HttpStatus.OK);
     }
 
 }
