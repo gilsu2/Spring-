@@ -20,6 +20,15 @@ public class ProductDTO {
         this.stockValue = stockValue;
     }
 
+    // 아래 fromProduct()와 동일한 기능을 가진 생성자를 만들 수 있음
+    public ProductDTO(Product product){
+        this.productId = product.getProductNum();
+        this.productName = product.getProductName();
+        this.unitPrice = product.getPrice();
+        this.stock = product.getStock();
+        this.stockValue = product.getPrice()* product.getStock();
+    }
+
     public int getProductId() {
         return productId;
     }
@@ -60,13 +69,15 @@ public class ProductDTO {
         this.stockValue = stockValue;
     }
 
-    public ProductDTO fromProduct(Product product) {
+    public static ProductDTO fromProduct(Product product) {
         ProductDTO productDTO  = new ProductDTO();
-        productDTO.setProductId(0);
-        productDTO.setProductName("");
-        productDTO.setUnitPrice(0);
-        productDTO.setStock(0);
+        productDTO.setProductId(product.getProductNum());
+        productDTO.setProductName(product.getProductName());
+        productDTO.setUnitPrice(product.getPrice());
+        productDTO.setStock(product.getStock());
         productDTO.setStockValue((productDTO.getUnitPrice()*productDTO.getStock()));
         return productDTO;
     }
+
 }
+

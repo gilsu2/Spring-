@@ -134,5 +134,10 @@ public class ProductJdbcRepository implements ProductRepository {
         return List.of();
     }
 
+    @Override
+    public List<Product> getProductsByStockValue() {
+        return List.of();
+    }
+
 
 }

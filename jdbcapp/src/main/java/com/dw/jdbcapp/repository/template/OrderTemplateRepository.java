@@ -117,7 +117,7 @@ public class OrderTemplateRepository implements OrderRepository {
                 " limit ?; ";
         return jdbcTemplate.query(query, orderRowMapper1, limit); // RowMapper를 사용한 경우
 
-    }
+    } 
 
     @Override
     public List<Map<String, Double>> getOrderCountByYearForCity(String city) {
@@ -130,6 +130,7 @@ public class OrderTemplateRepository implements OrderRepository {
         return jdbcTemplate.query(query, orderRowMapper2,city);
 
     }
+
 
 
 }

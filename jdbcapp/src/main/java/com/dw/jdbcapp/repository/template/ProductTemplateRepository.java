@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.repository.template;
 
+import com.dw.jdbcapp.dto.ProductDTO;
 import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.iface.ProductRepository;
@@ -28,6 +29,18 @@ public class ProductTemplateRepository implements ProductRepository {
             product.setProductNum(rs.getInt("제품번호"));
             product.setProductName(rs.getString("제품명"));
             product.setPackagingUnit(rs.getString("포장단위"));
+            product.setPrice(rs.getDouble("단가"));
+            product.setStock(rs.getInt("재고"));
+            return product;
+        }
+    };
+
+    private final RowMapper<Product> productRowMapper1 = new RowMapper<Product>() {
+        @Override
+        public Product mapRow(ResultSet rs, int rowNum) throws SQLException { // throws = try catch 역할
+            Product product = new Product();
+            product.setProductNum(rs.getInt("제품번호"));
+            product.setProductName(rs.getString("제품명"));
             product.setPrice(rs.getDouble("단가"));
             product.setStock(rs.getInt("재고"));
             return product;
@@ -102,4 +115,12 @@ public class ProductTemplateRepository implements ProductRepository {
         String name1 =  "%"+name+"%";
         return jdbcTemplate.query(query,productRowMapper,name1);
     }
+
+    @Override
+    public List<Product> getProductsByStockValue() {
+        String query = "select 제품번호, 제품명, 단가, 재고, sum(단가*재고)  from 제품 " +
+                "group by 제품번호, 제품명, 단가,  재고;";
+        return jdbcTemplate.query(query,productRowMapper);
+    }
+
 }
