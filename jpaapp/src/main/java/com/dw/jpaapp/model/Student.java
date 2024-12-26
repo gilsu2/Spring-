@@ -14,19 +14,21 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "student") // 명시적으로 테이블이름 설정
+@Table(name = "student")
 public class Student {
-    @Id // PK로 설정하는 어노테이션
-    @GeneratedValue (strategy = GenerationType.IDENTITY) // 아이디숫자 자동 증가
-    @Column (name = "id") // @Id를 사용하면 이름을 지정하지 않아도 됨
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
-    @Column (name = "name",nullable = false) // nullable = false : 반드시 입력값이 있어야 함(중복가능)
+    @Column (name = "name", nullable = false)
     private String name;
 
-    @Column (name = "email", nullable = false, unique = true) // unique = true : 중복이 안됨
+    @Column (name = "email",nullable = false,unique = true)
     private String email;
 
     @ManyToMany(mappedBy = "studentList")
     private List<Course> courseList = new ArrayList<>();
+
+
 }

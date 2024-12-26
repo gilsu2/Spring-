@@ -11,24 +11,22 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Getter
+@Setter
 @Entity
-@Table (name = "instructor")
+@Table(name = "instructor")
 public class Instructor {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column (name = "name",nullable = false)
+    @Column(name ="name",nullable = false)
     private String name;
 
-    @Column (name = "career")
+    @Column(name = "career")
     private String career;
 
-    @OneToMany (mappedBy = "instructor_fk")
+    @OneToMany(mappedBy = "instructor_fk")
     private List<Course> courseList = new ArrayList<>();
-
 }
