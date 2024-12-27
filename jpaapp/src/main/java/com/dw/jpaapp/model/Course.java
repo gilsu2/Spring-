@@ -1,5 +1,7 @@
 package com.dw.jpaapp.model;
 
+import com.dw.jpaapp.dto.CourseDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +23,7 @@ public class Course {
     @Column
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title",nullable = false)
     private String title;
 
     @Column(name = "description")
@@ -37,4 +39,18 @@ public class Course {
     inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> studentList = new ArrayList<>();
 
+    // CourseDTO 매핑 메서드
+    public CourseDTO toDTo(){
+        CourseDTO courseDTO = new CourseDTO();
+        courseDTO.setId(this.id);
+        courseDTO.setTitle(this.title);
+        courseDTO.setDescription(this.description);
+        courseDTO.setInstructorId(this.instructor_fk.getId());
+        List<Long>studentIds = new ArrayList<>();
+        for(Student data : studentList){
+            studentIds.add(data.getId());
+        }
+        courseDTO.setStudentIds(studentIds);
+        return courseDTO;
+    }
 }

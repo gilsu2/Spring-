@@ -1,5 +1,7 @@
 package com.dw.jpaapp.model;
 
+import com.dw.jpaapp.dto.InstructorDTO;
+import com.dw.jpaapp.dto.StudentDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +30,13 @@ public class Instructor {
     private String career;
 
     @OneToMany(mappedBy = "instructor_fk")
-    private List<Course> courseList = new ArrayList<>();
+    private List<Course> courseList
+            = new ArrayList<>();
+
+    public InstructorDTO ToInstructorDTO() {
+        List<Long> courseIds = courseList.stream().map(Course::getId).toList();
+        return new InstructorDTO(this.id,this.name,this.career,courseIds);
+
+    }
+
 }
