@@ -14,4 +14,5 @@ public class InstructorDTO {
     private String name;
     private String career;
     private List<Long> courseIds;
+
 }

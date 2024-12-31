@@ -6,9 +6,7 @@ import com.dw.jpaapp.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +17,22 @@ public class InstructorController {
     InstructorService instructorService;
 
     @GetMapping("/instructors")
-    public ResponseEntity<List<InstructorDTO>> getAllInstructors(){
+    public ResponseEntity<List<InstructorDTO>> getAllInstructors() {
         return new ResponseEntity<>(instructorService.getAllInstructors(), HttpStatus.OK);
+    }
+
+    @GetMapping("/instructor/{id}")
+    public ResponseEntity<InstructorDTO> getInstructor(@PathVariable Long id) {
+        return new ResponseEntity<>(
+                instructorService.getInstructor(id),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/instructor/save")
+    public ResponseEntity<InstructorDTO> saveInstructor(
+            @RequestBody InstructorDTO instructorDTO) {
+        return new ResponseEntity<>(
+                instructorService.saveInstructor(instructorDTO),
+                HttpStatus.CREATED);
     }
 }
