@@ -1,6 +1,7 @@
 package com.dw.jpaapp.controller;
 
 import com.dw.jpaapp.dto.InstructorDTO;
+import com.dw.jpaapp.dto.InstructorGithubDTO;
 import com.dw.jpaapp.model.Instructor;
 import com.dw.jpaapp.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,20 @@ public class InstructorController {
         return new ResponseEntity<>(
                 instructorService.saveInstructor(instructorDTO),
                 HttpStatus.CREATED);
+    }
+    // 과제5-5. 전체 강사의 강사ID, 강사이름, github url을 조회
+    @GetMapping("/instructor/github")
+    public ResponseEntity<List<Object[]>> getInstructorGithub() {
+        return new ResponseEntity<>(
+                instructorService.getInstructorGithub(),
+                HttpStatus.OK);
+    }
+    // DTO를 이용하는 방법
+    @GetMapping("" +
+            "")
+    public ResponseEntity<List<InstructorGithubDTO>> getInstructorGithub2() {
+        return new ResponseEntity<>(
+                instructorService.getInstructorGithub2(),
+                HttpStatus.OK);
     }
 }
