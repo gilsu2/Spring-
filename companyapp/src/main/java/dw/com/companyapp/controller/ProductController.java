@@ -26,7 +26,7 @@ public class ProductController {
 
     // 과제 1-1 제품번호를 기준으로 제품 정보를 조회하는 API
     @GetMapping("/products/{productNumber}")
-    public ResponseEntity<Product> getProductById(@PathVariable int productNumber) {
+    public ResponseEntity<Product> getProductById(@PathVariable Long productNumber) {
         return new ResponseEntity<>(
                 productService.getProductById(productNumber),
                 HttpStatus.OK);
@@ -70,9 +70,9 @@ public class ProductController {
     // 해당 단가보다 싼 제품이 없을 경우, "해당되는 제품이 없습니다"를 출력하는 예외처리
     @GetMapping("/product")
     public ResponseEntity<List<Product>> getProductsBelowPrice(
-            @RequestParam double price_below) {
+            @RequestParam double price) {
         return new ResponseEntity<>(
-                productService.getProductsBelowPrice(price_below),
+                productService.getProductsBelowPrice(price),
                 HttpStatus.OK);
     }
 

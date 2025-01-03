@@ -38,10 +38,10 @@ public class DepartmentService {
 
     public Department updateDepartment(Department department) {
        Department department1 = departmentRepository.findById(department.getDepartmentId())
-               .orElseThrow(()-> new RuntimeException("NOT FOUND"));
-       department1.setDepartmentId(department.getDepartmentId());
-       department1.setDepartmentName(department.getDepartmentName());
-       return departmentRepository.save(department);
+                .orElseThrow(()-> new RuntimeException("NOT FOUND"));
+        department1.setDepartmentId(department.getDepartmentId());
+        department1.setDepartmentName(department.getDepartmentName());
+        return departmentRepository.save(department);
     }
 
     public String deleteDepartment(String id) {

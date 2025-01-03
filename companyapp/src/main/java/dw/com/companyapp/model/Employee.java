@@ -1,12 +1,10 @@
 package dw.com.companyapp.model;
 
-import dw.com.companyapp.dto.EmployeeDTO;
 import dw.com.companyapp.dto.EmployeeDepartmentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -58,14 +56,5 @@ public class Employee {
 
 
     }
-    public EmployeeDTO TODTO(){
-       EmployeeDTO employeeDTO = new EmployeeDTO();
-       employeeDTO.setEmployeeId(this.getEmployeeId());
-       employeeDTO.setName(this.getName());
-       employeeDTO.setEnglishName(this.getEnglishName());
-       employeeDTO.setPosition(this.getPosition());
-       employeeDTO.setGender(this.getGender());
-       employeeDTO.setBirthDate(this.getBirthDate());
-       employeeDTO.set
-    }
+
 }

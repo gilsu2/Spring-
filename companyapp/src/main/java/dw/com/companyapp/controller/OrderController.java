@@ -37,7 +37,7 @@ public class OrderController {
     // 과제 1-4 제품번호와 고객번호를 기준으로 해당 제품을 주문한 특정 고객의 주문 내역을 조회하는 API
     // 과제 3-4 제품번호와 고객번호로 주문정보를 조회할때 데이터가 없는 경우의 예외처리
     @GetMapping("/orders/{productNumber}/{customerId}")
-    public ResponseEntity<List<Order>> getOrderByIdAndCustomer(@PathVariable int productNumber,
+    public ResponseEntity<List<Order>> getOrderByIdAndCustomer(@PathVariable Long productNumber,
                 @PathVariable String customerId) {
         return new ResponseEntity<>(
                 orderService.getOrderByIdAndCustomer(productNumber, customerId),

@@ -1,6 +1,7 @@
 package dw.com.companyapp.model;
 
 import dw.com.companyapp.dto.EmployeeDepartmentDTO;
+import dw.com.companyapp.dto.ProductDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +25,15 @@ public class Product {
     private double unitPrice;
     @Column(name="재고")
     private int stock;
+
+    public ProductDTO Todto(){
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductId(this.productId);
+        productDTO.setProductName(this.productName);
+        productDTO.setUnitPrice(this.unitPrice);
+        productDTO.setStock(this.stock);
+        productDTO.setStockValue(this.unitPrice*this.stock);
+        return productDTO;
+    }
 
 }
