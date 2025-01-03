@@ -59,7 +59,7 @@ public class ProductController {
 
     // 과제 2-5 제품테이블의 정보를 삭제하는 API
     @DeleteMapping("/delete/product")
-    public ResponseEntity<String> deleteProduct(@RequestParam int id) {
+    public ResponseEntity<String> deleteProduct(@RequestParam Long id) {
         return new ResponseEntity<>(
                 "제품번호: " + productService.deleteProduct(id)
                         + " 삭제됨",
@@ -79,7 +79,7 @@ public class ProductController {
     // 과제 4-8 제품번호와 재고를 매개변수로 해당 제품의 재고를 수정하는 API
     @PutMapping("/products/update")
     public ResponseEntity<String> updateProductWithStock(
-            @RequestParam int id, @RequestParam int stock) {
+            @RequestParam Long id, @RequestParam int stock) {
         return new ResponseEntity<>(
                 productService.updateProductWithStock(id, stock),
                 HttpStatus.OK);

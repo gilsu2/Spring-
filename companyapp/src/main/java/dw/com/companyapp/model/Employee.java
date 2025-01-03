@@ -1,9 +1,12 @@
 package dw.com.companyapp.model;
 
+import dw.com.companyapp.dto.EmployeeDTO;
+import dw.com.companyapp.dto.EmployeeDepartmentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,4 +44,28 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "부서번호")
     private Department department;
+
+    public EmployeeDepartmentDTO ToDTO(){
+        EmployeeDepartmentDTO employeeDepartmentDTO = new EmployeeDepartmentDTO();
+        employeeDepartmentDTO.setEmployeeName(this.name);
+        employeeDepartmentDTO.setHireDate(this.hireDate);
+        if (this.department != null) {
+            employeeDepartmentDTO.setDepartmentName(this.department.getDepartmentName());
+        } else {
+            employeeDepartmentDTO.setDepartmentName("Unknown");
+}
+        return employeeDepartmentDTO;
+
+
+    }
+    public EmployeeDTO TODTO(){
+       EmployeeDTO employeeDTO = new EmployeeDTO();
+       employeeDTO.setEmployeeId(this.getEmployeeId());
+       employeeDTO.setName(this.getName());
+       employeeDTO.setEnglishName(this.getEnglishName());
+       employeeDTO.setPosition(this.getPosition());
+       employeeDTO.setGender(this.getGender());
+       employeeDTO.setBirthDate(this.getBirthDate());
+       employeeDTO.set
+    }
 }

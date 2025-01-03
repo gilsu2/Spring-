@@ -41,7 +41,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/department")
-    public ResponseEntity<List<Map<String,Object>>> getEmployeesWithDepartName() {
+    public ResponseEntity<List<EmployeeDepartmentDTO>> getEmployeesWithDepartName() {
         return new ResponseEntity<>(
                 employeeService.getEmployeesWithDepartName(),
                 HttpStatus.OK);

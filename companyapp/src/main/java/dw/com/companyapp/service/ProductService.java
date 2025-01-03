@@ -40,7 +40,7 @@ public class ProductService {
     }
 
     // 과제 2-5 제품테이블의 정보를 삭제하는 API
-    public int deleteProduct(int id) {
+    public int deleteProduct(Long id) {
         return 0;
     }
 
@@ -51,7 +51,7 @@ public class ProductService {
     }
 
     // 과제 4-8 제품번호와 재고를 매개변수로 해당 제품의 재고를 수정하는 API
-    public String updateProductWithStock(int id, int stock) {
+    public String updateProductWithStock(Long id, int stock) {
         return null;
     }
 
