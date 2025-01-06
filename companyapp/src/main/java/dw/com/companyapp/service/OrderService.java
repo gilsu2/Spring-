@@ -5,15 +5,13 @@ import dw.com.companyapp.dto.OrderRequestDTO;
 import dw.com.companyapp.exception.InvalidRequestException;
 import dw.com.companyapp.exception.ResourceNotFoundException;
 import dw.com.companyapp.model.*;
-import dw.com.companyapp.repository.CustomerRepository;
-import dw.com.companyapp.repository.EmployeeRepository;
-import dw.com.companyapp.repository.OrderDetailRepository;
-import dw.com.companyapp.repository.OrderRepository;
+import dw.com.companyapp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +27,8 @@ public class OrderService {
     EmployeeRepository employeeRepository;
     @Autowired
     OrderDetailRepository orderDetailRepository;
+    @Autowired
+    ProductRepository productRepository;
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
@@ -51,27 +51,38 @@ public class OrderService {
     }
 
     public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {
-        Order order = new Order();
-        order.setOrderId(orderRequestDTO.getOrderId());
         Customer customer = customerRepository.findById(orderRequestDTO.getCustomerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
-        order.setCustomer(customer);
         Employee employee = employeeRepository.findById(orderRequestDTO.getEmployeeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setOrderId(orderRequestDTO.getOrderId());
         order.setEmployee(employee);
         order.setRequestDate(orderRequestDTO.getRequestDate());
-        List<OrderDetail> orderDetails = orderRequestDTO.getOrderDetails();
-        for (OrderDetail orderDetail : orderDetails) {
-            orderDetail.setOrder(order);  // OrderDetail에 해당 Order 연결
-            orderDetailRepository.save(orderDetail);  // OrderDetail 저장
+        order.setOrderDate(orderRequestDTO.getOrderDate());
+        order.setShippingDate(orderRequestDTO.getShippingDate());
+
+        for (OrderDetail data: orderRequestDTO.getOrderDetails()) {
+            Product product = productRepository.findById(data.getProduct().getProductId())
+                    .orElseThrow(() -> new ResourceNotFoundException("NOT FOUND"));
+
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setUnitPrice(data.getUnitPrice());
+            orderDetail.setOrderQuantity(data.getOrderQuantity());
+            orderDetail.setDiscountRate(data.getDiscountRate());
+            orderDetail.setOrder(order);
+            orderDetail.setProduct(product);
+
+            orderDetailRepository.save(orderDetail);
+
         }
 
-
-        orderRepository.save(order);
-
-
-        return orderRequestDTO;
+        Order saveOrder =  orderRepository.save(order);
+        return saveOrder.ToDTO();
     }
+
 
     // 과제 4-4 주문번호와 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
     public String updateOrderWithShippingDate(String id, String date) {
@@ -86,11 +97,11 @@ public class OrderService {
     }
     // 과제 4-5 도시별로 주문금액합 결과를 내림차순 정렬하여 조회하는 API
     public List<Map<String, Double>> getTopCitiesByTotalOrderAmount(int limit) {
-        return null;
+        return orderRepository.findlimit(limit).stream().toList();
     }
 
     // 과제 4-6 도시를 매개변수로 해당 도시의 년도별 주문건수를 조회하는 API
     public List<Map<String, Double>> getOrderCountByYearForCity(String city) {
-        return null;
+        return orderRepository.findCity(city).stream().toList();
     }
 }
