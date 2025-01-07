@@ -22,7 +22,12 @@ public interface OrderRepository extends JpaRepository<Order,String> {
             " group by 도시 " +
             " order by 주문금액합 desc " +
             " limit ?; ",nativeQuery = true)
+    // @Query("select new com.dw.companyapp.dto.CityOrderAmountDTO(c.city, " +
+        //            "sum(od.unitPrice * od.orderQuantity) as orderAmount) " +
+        //            "from OrderDetail od join od.order.customer c " +
+        //            "group by c.city order by orderAmount desc limit :limit")
     List<Map<String, Double>> findlimit(int limit);
+
 
     @Query(value = "select year(주문일) as 주문년도, count(*) as 주문건수 " +
             " from 주문 " +
@@ -30,6 +35,9 @@ public interface OrderRepository extends JpaRepository<Order,String> {
             " where 고객.도시 = ? " +
             " group by 주문년도 " +
             " order by 주문년도;",nativeQuery = true)
+    //@Query("select new com.dw.companyapp.dto.YearOrderCountDTO(year(o.orderDate), count(o.orderId)) " +
+        //            "from Order o join o.customer c " +
+        //            "where c.city = :city group by year(o.orderDate)")
     List<Map<String, Double>>findCity(String city);
 
 

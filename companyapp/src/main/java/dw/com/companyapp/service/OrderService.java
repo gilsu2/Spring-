@@ -19,16 +19,23 @@ import java.util.Map;
 @Service
 public class OrderService {
 
-    @Autowired
+
     OrderRepository orderRepository;
-    @Autowired
     CustomerRepository customerRepository;
-    @Autowired
     EmployeeRepository employeeRepository;
-    @Autowired
     OrderDetailRepository orderDetailRepository;
-    @Autowired
     ProductRepository productRepository;
+    // @Autowired의 어노테이션을 사용하여 필드에 의존성 주입을 할 수 있고,
+    // 아래와 같이 생성자로 @Autowired를 사용하지 않고 의존성 주입을 할 수 있음
+    public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository, EmployeeRepository employeeRepository,
+                        OrderDetailRepository orderDetailRepository, ProductRepository productRepository) {
+        this.orderRepository = orderRepository;
+        this.customerRepository = customerRepository;
+        this.employeeRepository = employeeRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.productRepository = productRepository;
+
+    }
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
@@ -51,38 +58,30 @@ public class OrderService {
     }
 
     public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {
-        Customer customer = customerRepository.findById(orderRequestDTO.getCustomerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
-        Employee employee = employeeRepository.findById(orderRequestDTO.getEmployeeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-
         Order order = new Order();
-        order.setCustomer(customer);
+        order.setCustomer(customerRepository.findById(orderRequestDTO.getCustomerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found")));
+        order.setEmployee(employeeRepository.findById(orderRequestDTO.getEmployeeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found")));
         order.setOrderId(orderRequestDTO.getOrderId());
-        order.setEmployee(employee);
         order.setRequestDate(orderRequestDTO.getRequestDate());
         order.setOrderDate(orderRequestDTO.getOrderDate());
         order.setShippingDate(orderRequestDTO.getShippingDate());
+        orderRepository.save(order);
 
-        for (OrderDetail data: orderRequestDTO.getOrderDetails()) {
+        for (OrderDetail data : orderRequestDTO.getOrderDetails()) {
             Product product = productRepository.findById(data.getProduct().getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("NOT FOUND"));
-
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setUnitPrice(data.getUnitPrice());
-            orderDetail.setOrderQuantity(data.getOrderQuantity());
-            orderDetail.setDiscountRate(data.getDiscountRate());
-            orderDetail.setOrder(order);
-            orderDetail.setProduct(product);
-
-            orderDetailRepository.save(orderDetail);
-
+                    .orElseThrow(()->new InvalidRequestException("없는 제품번호"));
+            if (product.getStock() - data.getOrderQuantity() < 0) {
+                throw new InvalidRequestException(
+                        "요청하신 수량은 현재 재고를 초과합니다: " +
+                                product.getProductName() + ", 현재 재고 " +
+                                product.getStock());
+            }
+            orderDetailRepository.save(data);
         }
-
-        Order saveOrder =  orderRepository.save(order);
-        return saveOrder.ToDTO();
+        return orderRequestDTO;
     }
-
 
     // 과제 4-4 주문번호와 발송일을 매개변수로 해당 주문의 발송일을 수정하는 API
     public String updateOrderWithShippingDate(String id, String date) {

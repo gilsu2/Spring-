@@ -44,14 +44,7 @@ public class ProductService {
 
     // 과제 2-4 제품테이블의 정보를 수정하는 API
     public Product updateProduct(Product product) {
-        Product product1 = productRepository.findById(product.getProductId())
-                .orElseThrow(() -> new RuntimeException("NOT FOUND"));
-        product1.setProductName(product.getProductName());
-        product1.setPkgUnit(product.getPkgUnit());
-        product1.setUnitPrice(product.getUnitPrice());
-        product1.setStock(product.getStock());
-
-        return productRepository.save(product1);
+        return productRepository.save(product);
     }
 
     // 과제 2-5 제품테이블의 정보를 삭제하는 API
