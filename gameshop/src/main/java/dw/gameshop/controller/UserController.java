@@ -32,8 +32,13 @@ public class UserController {
         String password = userDTO.getPassword();
 
         if (userService.validateUser(username, password)) {
+<<<<<<< HEAD
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
+=======
+//            HttpSession session = request.getSession();
+            request.getSession().setAttribute("username", username);
+>>>>>>> ca9ad7b6587b6d52c32c4ece4b7f22cc7f5258a5
             return  new ResponseEntity<>(
                     "Login successful",
                     HttpStatus.OK);
