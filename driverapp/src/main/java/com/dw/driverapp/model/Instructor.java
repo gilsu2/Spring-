@@ -23,6 +23,7 @@ public class Instructor {
     private String gender;
     @Column(name="age")
     private int age;
+
     @OneToMany(mappedBy = "instructor_fk")
     private List<Subject> subjects = new ArrayList<>();
 

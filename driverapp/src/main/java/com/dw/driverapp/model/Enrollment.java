@@ -16,12 +16,18 @@ public class Enrollment {
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name="user_name")
+    private User user_fk;
      @ManyToOne
     @JoinColumn(name="subject_id")
     private Subject subject_fk;
      @ManyToOne
-    @JoinColumn(name="user_name")
-    private User user_fk;
+     @JoinColumn(name="subject_price")
+     private Subject subject;
+     @ManyToOne
+     @JoinColumn(name="user_point")
+     private User user;
     @Column(name="purchase_time")
     private LocalDateTime purchaseTime;
 
