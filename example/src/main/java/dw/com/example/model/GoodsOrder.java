@@ -17,7 +17,7 @@ public class GoodsOrder {
     private Long id;
 
     @Column(name="quantity")
-    private Integer quantity;
+    private int quantity;
 
     @Column(name="order_date")
     private String orderDate;
